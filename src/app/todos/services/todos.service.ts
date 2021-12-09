@@ -31,4 +31,37 @@ export class TodosService {
   changeFilter(nextFilter: FilterEnum): void {
     this.filter$.next(nextFilter);
   }
+
+  changeTodo(todoId: string, newName: string): void {
+    const updatedTodos = this.todos$.getValue().map((todo) => {
+      if (todo.id === todoId) {
+        return {
+          ...todo,
+          name: newName,
+        };
+      }
+      return todo;
+    });
+    this.todos$.next(updatedTodos);
+  }
+
+  removeTodo(todoId: string): void {
+    const updatedTodos = this.todos$
+      .getValue()
+      .filter((todo) => todo.id !== todoId);
+    this.todos$.next(updatedTodos);
+  }
+
+  toggleTodo(todoId: string): void {
+    const updatedTodos = this.todos$.getValue().map((todo) => {
+      if (todo.id === todoId) {
+        return {
+          ...todo,
+          isCompleted: !todo.isCompleted,
+        };
+      }
+      return todo;
+    });
+    this.todos$.next(updatedTodos);
+  }
 }

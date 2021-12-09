@@ -12,12 +12,12 @@ export class FooterComponent {
   noTodosClass$: Observable<boolean>;
   activeCount$: Observable<number>;
   itemsLeftText$: Observable<string>;
-  activeFilter$: Observable<FilterEnum>;
+  filter$: Observable<FilterEnum>;
   filterEnum = FilterEnum;
 
   constructor(private todoService: TodosService) {
     this.activeCount$ = this.todoService.todos$.pipe(
-      map((todos) => todos.filter((todo) => !todo.isCompleted).length)
+      map((todos) => todos.filter((todo) => ! todo.isCompleted).length)
     );
     this.itemsLeftText$ = this.activeCount$.pipe(
       map((activeCount) => `item${activeCount !== 1 ? 's' : ''} left`)
@@ -25,7 +25,7 @@ export class FooterComponent {
     this.noTodosClass$ = this.todoService.todos$.pipe(
       map((todos) => todos.length === 0)
     );
-    this.activeFilter$ = this.todoService.filter$.pipe(map((filter) => filter));
+    this.filter$ = this.todoService.filter$;
   }
 
   changeFilter(event: Event, nextFilter: FilterEnum): void {
